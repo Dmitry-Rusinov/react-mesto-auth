@@ -6,10 +6,14 @@ import Footer from "./Footer.js";
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { Routes, Route } from "react-router-dom";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import PopupWithConfirmation from "./PopupWithConfirmation";
+import Register from "./Register";
+import Login from "./Login";
+import ProtectedRoute from "./ProtectedRoute";
 
 
 function App() {
@@ -51,6 +55,10 @@ function App() {
   const handleButtonDeleteCardClick = () => {
     setConfirmationPopupOpen(true);
   }
+
+  /*const handleRegisterPopupClick = () => {
+    setRegisterPopupOpen(true);
+  }*/
 
   const handleCardDelete = (cardId) => {
     api
@@ -113,20 +121,33 @@ function App() {
       .catch((err) => console.log(`Ошибка: ${err}`));
   };
 
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="content">
-          <Header />
-          <Main
-            onEditAvatar={handleEditAvatarClick}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
-            onCardDelete={handleCardDelete}
-            onCardLike={handleCardLike}
-            cards={cards}
+          <Header
           />
+          <Routes>
+            <Route path="/signup" element={<Register/>} />
+            <Route path="/signin" element={<Login/>} /> 
+          <Route
+            path="/"
+            element={<ProtectedRoute 
+              component={ <Main
+              onEditAvatar={handleEditAvatarClick}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onCardClick={handleCardClick}
+              onCardDelete={handleCardDelete}
+              onCardLike={handleCardLike}
+              cards={cards} /> }
+              />}
+            loggedIn={loggedIn}
+            
+          />
+          </Routes> 
           <Footer />
         </div>
         <EditProfilePopup
