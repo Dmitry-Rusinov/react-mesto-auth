@@ -14,3 +14,9 @@
   transition: .6s ease;
   cursor: pointer;
 }
+
+@media screen and (max-width: 425px) {
+  .auth__submit {
+    font-size: 16px;
+  }
+}

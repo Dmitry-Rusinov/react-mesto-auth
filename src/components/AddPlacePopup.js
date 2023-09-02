@@ -6,39 +6,44 @@ export default function AddPlacePopup({ isOpen, onClose, onAddCard }) {
   const [pictureLink, setPictureLink] = useState("");
   const [newPlaceDirty, setNewPlaceDirty] = useState(false);
   const [pictureLinkDirty, setPictureLinkDirty] = useState(false);
-  const [newPlaceError, setNewPlaceError] = useState("Поле не может быть пустым");
-  const [picrureLinkError, setPictureLinkError] = useState("Поле не может быть пустым");
+  const [newPlaceError, setNewPlaceError] = useState(
+    "Поле не может быть пустым"
+  );
+  const [picrureLinkError, setPictureLinkError] = useState(
+    "Поле не может быть пустым"
+  );
 
   function blurHandler(e) {
     switch (e.target.name) {
-      case 'newPlace' :
-        setNewPlaceDirty(true)
-        break
-      case 'pictureLink' :
-        setPictureLinkDirty(true)
-        break
+      case "newPlace":
+        setNewPlaceDirty(true);
+        break;
+      case "pictureLink":
+        setPictureLinkDirty(true);
+        break;
     }
   }
 
   function handleChangeNewPlace(e) {
     setNewPlace(e.target.value);
     if (e.target.value.length < 2) {
-      setNewPlaceError("Минимальное количество символов: 2")
+      setNewPlaceError("Минимальное количество символов: 2");
       if (!e.target.value) {
-        setNewPlaceError("Поле не может быть пустым")
+        setNewPlaceError("Поле не может быть пустым");
       }
     } else {
-      setNewPlaceError("")
+      setNewPlaceError("");
     }
   }
 
   function handleChangePictureLink(e) {
     setPictureLink(e.target.value);
-    const reg = /^(http|ftp)s?:\/\/((?=.{3,253}$)(localhost|(([^ ]){1,63}\.[^ ]+)))$/
-    if(!reg.test(String(e.target.value))) {
-      setPictureLinkError("Введите ссылку на изображение")
+    const reg =
+      /^(http|ftp)s?:\/\/((?=.{3,253}$)(localhost|(([^ ]){1,63}\.[^ ]+)))$/;
+    if (!reg.test(String(e.target.value))) {
+      setPictureLinkError("Введите ссылку на изображение");
     } else {
-      setPictureLinkError("")
+      setPictureLinkError("");
     }
   }
 
@@ -65,11 +70,10 @@ export default function AddPlacePopup({ isOpen, onClose, onAddCard }) {
       onClose={onClose}
       onSubmit={handleSubmit}
       buttonText="Создать"
-        picrureLinkError={picrureLinkError}
-        newPlaceError={newPlaceError}
-        newPlace={newPlace}
-        pictureLink={pictureLink}
-        >
+      picrureLinkError={picrureLinkError}
+      newPlaceError={newPlaceError}
+      newPlace={newPlace}
+      pictureLink={pictureLink}>
       <fieldset className="popup__content">
         <input
           className="popup__input"
@@ -81,10 +85,12 @@ export default function AddPlacePopup({ isOpen, onClose, onAddCard }) {
           name="newPlace"
           required
           value={newPlace}
-          onChange={e => handleChangeNewPlace(e)}
-          onBlur={e => blurHandler(e)}
+          onChange={(e) => handleChangeNewPlace(e)}
+          onBlur={(e) => blurHandler(e)}
         />
-        <span className="popup__input-error card-description-error">{(newPlaceDirty && newPlaceError)}</span>
+        <span className="popup__input-error card-description-error">
+          {newPlaceDirty && newPlaceError}
+        </span>
         <input
           className="popup__input"
           id="picture-link"
@@ -95,10 +101,12 @@ export default function AddPlacePopup({ isOpen, onClose, onAddCard }) {
           name="pictureLink"
           required
           value={pictureLink}
-          onChange={e => handleChangePictureLink(e)}
-          onBlur={e => blurHandler(e)}
+          onChange={(e) => handleChangePictureLink(e)}
+          onBlur={(e) => blurHandler(e)}
         />
-        <span className="popup__input-error picture-link-error">{(pictureLinkDirty && picrureLinkError)}</span>
+        <span className="popup__input-error picture-link-error">
+          {pictureLinkDirty && picrureLinkError}
+        </span>
       </fieldset>
     </PopupWithForm>
   );

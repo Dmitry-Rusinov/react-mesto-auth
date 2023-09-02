@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import * as Auth from "./Auth";
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ handleLogin, setUserEmail }) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   function handleChangeEmail(e) {
     setEmail(e.target.value);
@@ -14,7 +17,26 @@ export default function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!email || !password) {
+      return;
+    }
+    Auth.authorize(email, password)
+      .then((data) => {
+        if (data) {
+          setEmail("");
+          setPassword("");
+          handleLogin();
+          navigate("/", { replace: true });
+        }
+      })
+      .catch((err) => console.log(err));
   }
+
+  useEffect(() => {
+    if (handleSubmit) {
+      setUserEmail(email);
+    }
+  });
 
   return (
     <div className="auth">
@@ -38,8 +60,8 @@ export default function Login() {
           type="text"
           id="user-password"
           placeholder="Пароль"
-          minLength="2"
-          maxLength="200"
+          minLength="4"
+          maxLength="12"
           name="password"
           onChange={handleChangePassword}
           value={password || ""}

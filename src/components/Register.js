@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Register() {
-
-  //const navigate = useNavigate();
-
-
+export default function Register({ onRegister }) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
@@ -19,6 +15,7 @@ export default function Register() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    onRegister(email, password);
   }
 
   return (
@@ -53,9 +50,12 @@ export default function Register() {
         <span className="auth__input-error password-error"></span>
         <button className="auth__submit">Зарегистрироваться</button>
       </form>
-      <p className="auth__toLogin">Уже зарегистрированы? <Link className="auth__toLogin" to={"/signin"}>
-         Войти
-      </Link></p>
+      <p className="auth__toLogin">
+        Уже зарегистрированы?{" "}
+        <Link className="auth__button-login" to={"/signin"}>
+          Войти
+        </Link>
+      </p>
     </div>
   );
 }
