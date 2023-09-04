@@ -164,7 +164,7 @@ function App() {
               navigate("/", { replace: true });
             }
           })
-          .catch((err) => console.log(err));
+          .catch((err) => console.log(`Ошибка: ${err}`));
       }
     }
   };
@@ -173,7 +173,6 @@ function App() {
   const checkRegistration = (email, password) => {
     Auth.register({ email, password })
       .then((data) => {
-        console.log(data);
         if (data) {
           setRegistrationConfirm(true);
           handleInfoToolTipClick();
@@ -183,7 +182,7 @@ function App() {
           handleInfoToolTipClick();
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(`Ошибка: ${err}`));
   };
 
   //выходим из системы

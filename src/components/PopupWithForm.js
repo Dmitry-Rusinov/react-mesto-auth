@@ -1,17 +1,9 @@
-import { useState, useEffect } from "react";
+
+import { useFormAndValidation } from "../hooks/useFormAndValidation";
 
 export default function PopupWithForm(props) {
-
-  const [isValid, setIsValid] = useState(false);
-
-  useEffect(() => {
-    if (props.newPlaceError || props.picrureLinkError) {
-      setIsValid(false)
-    }
-    else {
-      setIsValid(true)
-    }
-  }, [props.newPlaceError || props.picrureLinkError, props.isOpen])
+  const { isValid, handleChange } = useFormAndValidation();
+ 
 
   return (
     <div
@@ -28,9 +20,14 @@ export default function PopupWithForm(props) {
         <form
           name={props.name}
           className="popup__form"
+          onChange={handleChange}
           onSubmit={props.onSubmit}>
           {props.children}
-          <button disabled={!isValid} type="submit" className="popup__submit" value="delete">
+          <button
+            disabled={!isValid}
+            type="submit"
+            className="popup__submit"
+            value="delete">
             {props.buttonText}
           </button>
         </form>

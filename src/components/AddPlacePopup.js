@@ -1,65 +1,20 @@
 import PopupWithForm from "./PopupWithForm";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useFormAndValidation } from "../hooks/useFormAndValidation";
 
 export default function AddPlacePopup({ isOpen, onClose, onAddCard }) {
-  const [newPlace, setNewPlace] = useState("");
-  const [pictureLink, setPictureLink] = useState("");
-  const [newPlaceDirty, setNewPlaceDirty] = useState(false);
-  const [pictureLinkDirty, setPictureLinkDirty] = useState(false);
-  const [newPlaceError, setNewPlaceError] = useState(
-    "Поле не может быть пустым"
-  );
-  const [picrureLinkError, setPictureLinkError] = useState(
-    "Поле не может быть пустым"
-  );
-
-  function blurHandler(e) {
-    switch (e.target.name) {
-      case "newPlace":
-        setNewPlaceDirty(true);
-        break;
-      case "pictureLink":
-        setPictureLinkDirty(true);
-        break;
-    }
-  }
-
-  function handleChangeNewPlace(e) {
-    setNewPlace(e.target.value);
-    if (e.target.value.length < 2) {
-      setNewPlaceError("Минимальное количество символов: 2");
-      if (!e.target.value) {
-        setNewPlaceError("Поле не может быть пустым");
-      }
-    } else {
-      setNewPlaceError("");
-    }
-  }
-
-  function handleChangePictureLink(e) {
-    setPictureLink(e.target.value);
-    const reg =
-      /^(http|ftp)s?:\/\/((?=.{3,253}$)(localhost|(([^ ]){1,63}\.[^ ]+)))$/;
-    if (!reg.test(String(e.target.value))) {
-      setPictureLinkError("Введите ссылку на изображение");
-    } else {
-      setPictureLinkError("");
-    }
-  }
+  const { errors, resetForm, values, handleChange } = useFormAndValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
     onAddCard({
-      name: newPlace,
-      link: pictureLink,
+      name: values.newPlace,
+      link: values.pictureLink,
     });
   }
 
   useEffect(() => {
-    setNewPlace("");
-    setPictureLink("");
-    setNewPlaceDirty("");
-    setPictureLinkDirty("");
+    resetForm();
   }, [isOpen]);
 
   return (
@@ -70,10 +25,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddCard }) {
       onClose={onClose}
       onSubmit={handleSubmit}
       buttonText="Создать"
-      picrureLinkError={picrureLinkError}
-      newPlaceError={newPlaceError}
-      newPlace={newPlace}
-      pictureLink={pictureLink}>
+      errors={errors}>
       <fieldset className="popup__content">
         <input
           className="popup__input"
@@ -84,12 +36,11 @@ export default function AddPlacePopup({ isOpen, onClose, onAddCard }) {
           maxLength="30"
           name="newPlace"
           required
-          value={newPlace}
-          onChange={(e) => handleChangeNewPlace(e)}
-          onBlur={(e) => blurHandler(e)}
+          value={values.newPlace || ""}
+          onChange={handleChange}
         />
         <span className="popup__input-error card-description-error">
-          {newPlaceDirty && newPlaceError}
+          {errors.newPlace}
         </span>
         <input
           className="popup__input"
@@ -100,12 +51,11 @@ export default function AddPlacePopup({ isOpen, onClose, onAddCard }) {
           maxLength="400"
           name="pictureLink"
           required
-          value={pictureLink}
-          onChange={(e) => handleChangePictureLink(e)}
-          onBlur={(e) => blurHandler(e)}
+          value={values.pictureLink || ""}
+          onChange={handleChange}
         />
         <span className="popup__input-error picture-link-error">
-          {pictureLinkDirty && picrureLinkError}
+          {errors.pictureLink}
         </span>
       </fieldset>
     </PopupWithForm>

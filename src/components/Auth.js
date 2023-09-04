@@ -1,3 +1,5 @@
+import { api } from "../utils/Api";
+
 export const BASE_URL = "https://auth.nomoreparties.co";
 
 export const register = ({ email, password }) => {
@@ -9,20 +11,7 @@ export const register = ({ email, password }) => {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((response) => {
-      console.log(response);
-      try {
-        if (response.status === 201) {
-          return response.json();
-        }
-      } catch (e) {
-        return e;
-      }
-    })
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => console.log(err));
+    .then(api.checkResponse)
 };
 
 export const authorize = (email, password) => {
@@ -34,16 +23,13 @@ export const authorize = (email, password) => {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((res) => res.json())
+    .then(api.checkResponse)
     .then((data) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
         return data;
-      } else {
-        console.log("Что-то пошло не так...");
-      }
+      } 
     })
-    .catch((err) => console.log(err));
 };
 
 export const getContent = (token) => {
@@ -55,7 +41,5 @@ export const getContent = (token) => {
       Authorization: `Bearer ${token}`,
     },
   })
-    .then((res) => res.json())
-    .then((data) => data)
-    .catch((err) => console.log(err));
+    .then(api.checkResponse)
 };
