@@ -170,19 +170,20 @@ function App() {
   };
 
   //проверяем успешна регистрация или нет
-  const checkRegistration = (email, password) => {
+  const checkRegistration = ({ email, password }) => {
     Auth.register({ email, password })
       .then((data) => {
         if (data) {
           setRegistrationConfirm(true);
           handleInfoToolTipClick();
           navigate("/signin");
-        } else {
-          setRegistrationConfirm(false);
-          handleInfoToolTipClick();
         }
       })
-      .catch((err) => console.log(`Ошибка: ${err}`));
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+        setRegistrationConfirm(false);
+        handleInfoToolTipClick();
+      });
   };
 
   //выходим из системы

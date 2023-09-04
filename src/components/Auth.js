@@ -12,6 +12,7 @@ export const register = ({ email, password }) => {
     body: JSON.stringify({ email, password }),
   })
     .then(api.checkResponse)
+    .then((data) => data);
 };
 
 export const authorize = (email, password) => {
@@ -28,8 +29,8 @@ export const authorize = (email, password) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
         return data;
-      } 
-    })
+      }
+    });
 };
 
 export const getContent = (token) => {
@@ -40,6 +41,5 @@ export const getContent = (token) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-  })
-    .then(api.checkResponse)
+  }).then(api.checkResponse);
 };

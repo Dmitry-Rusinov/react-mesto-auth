@@ -1,27 +1,24 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useFormAndValidation } from "../hooks/useFormAndValidation";
 
 export default function Register({ onRegister }) {
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-
-  function handleChangeEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleChangePassword(e) {
-    setPassword(e.target.value);
-  }
+  const { errors, values, handleChange } = useFormAndValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
-    onRegister(email, password);
+    onRegister({
+      email: values.email,
+      password: values.password,
+    });
   }
 
   return (
     <div className="auth">
       <h2 className="auth__title">Регистрация</h2>
-      <form onSubmit={handleSubmit} className="auth__form">
+      <form
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        className="auth__form">
         <input
           className="auth__input"
           type="email"
@@ -30,25 +27,31 @@ export default function Register({ onRegister }) {
           minLength="2"
           maxLength="40"
           name="email"
-          value={email || ""}
-          onChange={handleChangeEmail}
+          value={values.email || ""}
+          onChange={handleChange}
           required
         />
-        <span className="auth__input-error user-email-error"></span>
+        <span className="auth__input-error user-email-error">
+          {errors.email}
+        </span>
         <input
           className="auth__input"
           type="text"
           id="user-password"
           placeholder="Пароль"
-          minLength="2"
-          maxLength="200"
+          minLength="4"
+          maxLength="12"
           name="password"
-          onChange={handleChangePassword}
-          value={password || ""}
+          onChange={handleChange}
+          value={values.password || ""}
           required
         />
-        <span className="auth__input-error password-error"></span>
-        <button className="auth__submit">Зарегистрироваться</button>
+        <span className="auth__input-error password-error">
+          {errors.password}
+        </span>
+        <button type="submit" className="auth__submit">
+          Зарегистрироваться
+        </button>
       </form>
       <p className="auth__toLogin">
         Уже зарегистрированы?{" "}

@@ -1,9 +1,7 @@
-
 import { useFormAndValidation } from "../hooks/useFormAndValidation";
 
 export default function PopupWithForm(props) {
   const { isValid, handleChange } = useFormAndValidation();
- 
 
   return (
     <div
