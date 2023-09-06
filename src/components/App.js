@@ -222,6 +222,7 @@ function App() {
             <Route
               path="/"
               element={
+                (<>
                 <ProtectedRoute
                   component={Main}
                   onEditAvatar={handleEditAvatarClick}
@@ -233,10 +234,13 @@ function App() {
                   cards={cards}
                   loggedIn={loggedIn}
                 />
-              }
+                <Footer />
+                </>
+                )
+              }         
             />
+            
           </Routes>
-          <Footer />
         </div>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}

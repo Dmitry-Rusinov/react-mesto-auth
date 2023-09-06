@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import Footer from "./Footer";
 
 export default function Main({
   onEditAvatar,
