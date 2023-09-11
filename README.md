@@ -21,7 +21,7 @@
 
 * Использование утилиты  Create React App
 * Функциональные компоненты
-* Использование хуков useState, useEffect, useRef, useContext, useNavigate
+* Использование хуков useState, useEffect, useRef, useContext, useNavigate, useRef
 
 ### Работа с репозиторием через Git Bash
 * Создание отдельных веток в репозитории для решения задач.
